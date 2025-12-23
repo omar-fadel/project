@@ -1,0 +1,157 @@
+/* payment.css */
+
+/* Overall container styling */
+.payment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eaa866 0%, #000000 100%);
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+/* Main payment box */
+.payment-box {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Animation for box entry */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Event title styling */
+.payment-text {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+/* Price display */
+.price {
+  font-size: 42px;
+  font-weight: 700;
+  color: #000000;
+  margin: 25px 0;
+  padding: 20px 0;
+  border-top: 2px dashed #e0e0e0;
+  border-bottom: 2px dashed #e0e0e0;
+  letter-spacing: 1px;
+}
+
+/* Divider styling */
+.payment-box br {
+  margin: 5px 0;
+}
+
+/* Button styling */
+.payment-button {
+  width: 100%;
+  padding: 16px 24px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Primary button (Checkout) */
+.payment-button:first-of-type {
+  background:  linear-gradient(135deg, #eaa866 0%, #000000 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(234, 164, 102, 0.4);
+}
+
+/* Green hover effect for checkout button */
+.payment-button:first-of-type:hover {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.6);
+}
+
+.payment-button:first-of-type:active {
+  transform: translateY(0);
+  background: linear-gradient(135deg, #0da271 0%, #047857 100%);
+}
+
+/* Secondary button (Back) */
+.payment-button:last-of-type {
+  background: transparent;
+  color: #666;
+  border: 2px solid #ddd;
+}
+
+.payment-button:last-of-type:hover {
+  background: #f8f9fa;
+  border-color: #667eea;
+  color: #667eea;
+}
+
+/* Loading state for when data is being fetched */
+.payment-box:empty::before {
+  content: "Loading event details...";
+  color: #666;
+  font-size: 16px;
+}
+
+/* Add some icons for visual appeal */
+.payment-text:first-child::before {
+  content: "🎭";
+  margin-right: 8px;
+}
+
+.payment-text:nth-child(3)::before {
+  content: "🎤";
+  margin-right: 8px;
+}
+
+.payment-text:nth-child(5)::before {
+  content: "📍";
+  margin-right: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .payment-container {
+    padding: 15px;
+  }
+  
+  .payment-box {
+    padding: 30px 25px;
+  }
+  
+  .price {
+    font-size: 36px;
+  }
+  
+  .payment-text {
+    font-size: 15px;
+  }
+  
+  .payment-button {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}

@@ -1,0 +1,100 @@
+/* Centers the entire component on the screen */
+.auth-screen-wrapper {
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+/* The actual Signup Box (Card) */
+.auth-glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 380px; /* Fixed width prevents the horizontal bar */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+}
+
+/* Stacks everything vertically with spacing */
+.auth-content-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-title {
+  color: white;
+  margin: 0;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+/* Input field styling */
+.auth-field {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: white;
+  font-size: 16px;
+  box-sizing: border-box; /* Important: keeps inputs inside the box */
+  outline: none;
+}
+
+/* Wrapper for password + show button */
+.auth-password-row {
+  position: relative;
+  width: 100%;
+}
+
+.auth-toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #eee;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Primary "Sign Up" button */
+.auth-primary-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  background: #00d2ff;
+  background: linear-gradient(to right, #00d2ff, #3a7bd5);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+/* Secondary "Back" button */
+.auth-secondary-btn {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.auth-primary-btn:hover, .auth-secondary-btn:hover {
+  opacity: 0.8;
+}
