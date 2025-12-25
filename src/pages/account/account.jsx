@@ -2,6 +2,9 @@ import { useEffect } from "react";
 
 import { useState } from "react";
 import "../account/account.css";
+import axios from "axios";
+import { APP_BACKEND_URL } from "../../constants/app-url";
+import { getToken } from "../../utils/get-token";
 
 const Account = () => {
   const [username, setUserName] = useState("");
@@ -9,32 +12,17 @@ const Account = () => {
   const [id, setId] = useState("");
   const [events, setEvents] = useState([]);
 
-  const userTicketsMocker = [
-    {
-      event: "amr diab",
-      location: "north coast",
-      date: "26 Aug",
-      userId: "2499",
-      eventId: "12332",
-    },
-    {
-      event: "ziad zaza",
-      location: "new cairo",
-      date: "29 Aug",
-      userId: "2499",
-      eventId: "123432",
-    },
-    {
-      event: "Kairoke",
-      location: "north coast",
-      date: "26 Aug",
-      userId: "2499",
-      eventId: "12632",
-    },
-  ];
+  const getMyTickets = async () => {
+    const tickets = await axios.get(`${APP_BACKEND_URL}/Bookings/my`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    return tickets.data;
+  };
 
   useEffect(() => {
-    setEvents(userTicketsMocker);
+    getMyTickets().then((tickets) => setEvents(tickets));
 
     const user = JSON.parse(localStorage.getItem("user"));
     setUserName(user.username);
@@ -60,11 +48,11 @@ const Account = () => {
         </div>
       </header>
 
-      <div className="information" >
+      <div className="information">
         <h1 className="personal-information-title">Personal information</h1>
-        <span className="personal-information">username:  {username}</span>
-        <span className="personal-information">email:  {email}</span>
-        <span className="personal-information">id=     {id}</span>
+        <span className="personal-information">username: {username}</span>
+        <span className="personal-information">email: {email}</span>
+        <span className="personal-information">id= {id}</span>
       </div>
 
       <div className="tickets-section ">
@@ -79,12 +67,11 @@ const Account = () => {
           ) : (
             events.map((event) => (
               <div className="event-ticket">
-                <p >User Id:{id}</p><p>EventID:{event.eventId}</p><p>{event.event}</p>
-
-
+                <p>Event Title:{event.eventTitle}</p>
+                <p>Quantity: {event.quantity}</p>
+                <p>Ticket Type: {event.ticketType}</p>
+                <p>Status: {event.status}</p>
               </div>
-
-
             ))
           )}
         </div>

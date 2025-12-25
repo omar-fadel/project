@@ -2,57 +2,11 @@ import { useEffect, useState } from "react";
 // import axios from "axios";
 import "../dashboard/dashboard.css";
 import { useNavigate } from "react-router";
+import axios from "axios";
+import { APP_BACKEND_URL } from "../../constants/app-url";
+import { getToken } from "../../utils/get-token";
 
 const Dashboard = () => {
-  const mockEvents = [
-    {
-      title: "Wonder Girls World Tour",
-      artist: "Wonder Girls",
-      location: "San Francisco",
-      date: "2025-04-14",
-      month: "APR",
-      day: "14",
-      image: "https://picsum.photos/400/250?1",
-      description: "Directly seated and inside for you to enjoy the show.",
-      price: "1800",
-    },
-    {
-      title: "JYJ Worldwide Concert",
-      artist: "JYJ",
-      location: "Barcelona",
-      date: "2025-08-20",
-      month: "AUG",
-      day: "20",
-      image: "https://picsum.photos/400/250?2",
-      description: "Directly seated and inside for you to enjoy the show.",
-      price: "1400",
-      id:"23"
-    },
-    {
-      title: "Super Junior Live",
-      artist: "Super Junior",
-      location: "New York",
-      date: "2025-09-18",
-      month: "SEP",
-      day: "18",
-      image: "https://picsum.photos/400/250?3",
-      description: "Directly seated and inside for you to enjoy the show.",
-      price: "1800",
-      id:"23"
-    },
-    {
-      title: "Wonder Girls World Tour",
-      artist: "Wonder Girls",
-      location: "San Francisco",
-      date: "2025-04-14",
-      month: "APR",
-      day: "14",
-      image: "https://picsum.photos/400/250?1",
-      description: "Directly seated and inside for you to enjoy the show.",
-      price: "1800",
-      id:"23"
-    },
-  ];
   const Navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
@@ -61,11 +15,41 @@ const Dashboard = () => {
   const [location, setLocation] = useState("");
   const [date, setDate] = useState("");
 
+  const mapEventToCard = (event) => {
+    const dateObj = new Date(event.startDate);
 
+    return {
+      id: String(event.eventId),
+      title: event.title,
+      artist: event.title.split(" World Tour")[0] || event.title,
+      location: event.location,
+      date: dateObj.toISOString().split("T")[0],
+      month: dateObj.toLocaleString("en-US", { month: "short" }).toUpperCase(),
+      day: String(dateObj.getDate()),
+      image: event.imageUrl ?? `https://picsum.photos/400/250?${event.eventId}`,
+      description: event.description,
+      price: String(event.price),
+    };
+  };
+  console.log(events);
+
+  const getEvents = async () => {
+    const response = await axios.get(`${APP_BACKEND_URL}/Event`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+      },
+    });
+    const e = response.data;
+    return e.map(mapEventToCard);
+  };
+
+  console.log(events);
   useEffect(() => {
     localStorage.removeItem("event");
-    setEvents(mockEvents);
-    setFilteredEvents(mockEvents);
+    getEvents().then((e) => {
+      setEvents(e);
+      setFilteredEvents(e);
+    });
   }, []);
 
   const handleBookNow = (event) => {
@@ -76,7 +60,7 @@ const Dashboard = () => {
         artist: event.artist,
         location: event.location,
         price: event.price,
-        eventID:event.id
+        eventID: event.id,
       })
     );
     Navigate("/payment");
@@ -126,16 +110,16 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-    <header>
-      <div className="user-box">
-  
-  <div className="user-info">
-    <span className="user-name"><a href="/account">Account</a></span>
-  
-  </div>
-</div>
-    </header>
-      
+      <header>
+        <div className="user-box">
+          <div className="user-info">
+            <span className="user-name">
+              <a href="/account">Account</a>
+            </span>
+          </div>
+        </div>
+      </header>
+
       <div className="search-container compact">
         <h2 className="dashboard-title">Search Event</h2>
 
@@ -177,7 +161,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      
       <h2 className="events-title">Upcoming Events</h2>
 
       <div className="events-grid">
@@ -185,8 +168,8 @@ const Dashboard = () => {
           <p className="no-results">No events found</p>
         ) : (
           filteredEvents.map((event) => (
-            <div className="event-card" >
-              <div className="event-image" >
+            <div className="event-card">
+              <div className="event-image">
                 <img
                   src={event.image || "https://via.placeholder.com/400x250"}
                   alt={event.title}

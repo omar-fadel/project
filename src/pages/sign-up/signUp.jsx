@@ -1,8 +1,9 @@
 import { useState } from "react";
-import "../sign-up/sign-up.css"
+import "../sign-up/sign-up.css";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import BGImage from '../../assets/BG.jpeg';
+import BGImage from "../../assets/BG.jpeg";
+import { APP_BACKEND_URL } from "../../constants/app-url";
 
 const SignUP = () => {
   const Navigate = useNavigate();
@@ -10,10 +11,6 @@ const SignUP = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-
-  function getRandomTwoDigit() {
-    return Math.floor(Math.random() * 90) + 10;
-  }
 
   const backButton = () => {
     Navigate("/");
@@ -38,11 +35,10 @@ const SignUP = () => {
     }
 
     try {
-      await axios.post("http://localhost:3000/add-user", {
-        username,
+      await axios.post(`${APP_BACKEND_URL}/Auth/register`, {
+        fullName: username,
         password,
         email,
-        id: getRandomTwoDigit(),
       });
 
       alert("User registered!");
@@ -53,8 +49,11 @@ const SignUP = () => {
     }
   };
 
- return (
-    <div className="auth-screen-wrapper" style={{ backgroundImage: `url(${BGImage})` }}>
+  return (
+    <div
+      className="auth-screen-wrapper"
+      style={{ backgroundImage: `url(${BGImage})` }}
+    >
       <div className="auth-glass-card">
         <div className="auth-content-stack">
           <h1 className="auth-title">Signup</h1>
@@ -89,11 +88,7 @@ const SignUP = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <button
-            className="auth-primary-btn"
-            onClick={handlePassword}
-     
-          >
+          <button className="auth-primary-btn" onClick={handlePassword}>
             Sign up!!
           </button>
 
